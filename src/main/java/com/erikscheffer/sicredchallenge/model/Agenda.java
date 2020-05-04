@@ -3,6 +3,7 @@ package com.erikscheffer.sicredchallenge.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "agenda")
@@ -16,6 +17,6 @@ public class Agenda {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
-
+    @NotEmpty
     private String name;
 }

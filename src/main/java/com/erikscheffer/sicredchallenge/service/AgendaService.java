@@ -18,4 +18,8 @@ public class AgendaService {
     public List<Agenda> getAll() {
         return agendaRepository.findAll();
     }
+
+    public Agenda createAgenda(Agenda agenda) {
+        return agendaRepository.save(agenda);
+    }
 }
