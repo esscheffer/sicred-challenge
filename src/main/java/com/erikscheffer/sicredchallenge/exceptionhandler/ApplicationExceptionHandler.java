@@ -2,6 +2,7 @@ package com.erikscheffer.sicredchallenge.exceptionhandler;
 
 import com.erikscheffer.sicredchallenge.exception.ClosedVoteSessionException;
 import com.erikscheffer.sicredchallenge.exception.DuplicateVoteException;
+import com.erikscheffer.sicredchallenge.exception.EmptyVoteSession;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.context.MessageSource;
@@ -92,6 +93,20 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 
     @ExceptionHandler(ClosedVoteSessionException.class)
     ResponseEntity<Object> handleClosedVoteSessionException(ClosedVoteSessionException ex, WebRequest request) {
+        String userMessage = messageSource.getMessage(
+                "message.vote-session-closed.errorMessage",
+                new Object[]{ex.getVoteSession().getId()},
+                LocaleContextHolder.getLocale());
+        return handleExceptionInternal(
+                ex,
+                Collections.singletonList(new ErrorMessageWrapper(userMessage, ex.toString())),
+                new HttpHeaders(),
+                HttpStatus.BAD_REQUEST,
+                request);
+    }
+
+    @ExceptionHandler(EmptyVoteSession.class)
+    ResponseEntity<Object> handleEmptyVoteSession(EmptyVoteSession ex, WebRequest request) {
         String userMessage = messageSource.getMessage(
                 "message.vote-session-closed.errorMessage",
                 new Object[]{ex.getVoteSession().getId()},
