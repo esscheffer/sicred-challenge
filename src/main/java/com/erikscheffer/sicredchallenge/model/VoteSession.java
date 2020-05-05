@@ -3,21 +3,27 @@ package com.erikscheffer.sicredchallenge.model;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "agenda")
+@Table(name = "vote_session")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Agenda {
+public class VoteSession {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
 
-    @NotEmpty
-    private String name;
+    private Integer durationMinutes;
+
+    private LocalDateTime sessionStart;
+
+    @ManyToOne
+    @JoinColumn(name = "id_agenda")
+    Agenda agenda;
 }
